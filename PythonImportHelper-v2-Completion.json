@@ -1,0 +1,333 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "flash",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "secure_filename",
+        "importPath": "werkzeug.utils",
+        "description": "werkzeug.utils",
+        "isExtraImport": true,
+        "detail": "werkzeug.utils",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3.",
+        "description": "sqlite3.",
+        "detail": "sqlite3.",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn\ndef init_db():\n    conn = db()\n    conn.executescript(\"\"\"\n    CREATE TABLE IF NOT EXISTS users (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,\n        name TEXT NOT NULL,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "init_db",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def init_db():\n    conn = db()\n    conn.executescript(\"\"\"\n    CREATE TABLE IF NOT EXISTS users (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,\n        name TEXT NOT NULL,\n        email TEXT UNIQUE NOT NULL,\n        college_id TEXT,\n        department TEXT,\n        phone TEXT,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "allowed",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def allowed(filename):\n    return \".\" in filename and filename.rsplit(\".\",1)[1].lower() in ALLOWED_EXTENSIONS\ndef current_user():\n    if \"user_id\" not in session:\n        return None\n    conn=db()\n    user=conn.execute(\"SELECT * FROM users WHERE id=?\", (session[\"user_id\"],)).fetchone()\n    conn.close()\n    return user\ndef matching_items(item):",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "current_user",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def current_user():\n    if \"user_id\" not in session:\n        return None\n    conn=db()\n    user=conn.execute(\"SELECT * FROM users WHERE id=?\", (session[\"user_id\"],)).fetchone()\n    conn.close()\n    return user\ndef matching_items(item):\n    conn=db()\n    opposite=\"found\" if item[\"item_type\"]==\"lost\" else \"lost\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "matching_items",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def matching_items(item):\n    conn=db()\n    opposite=\"found\" if item[\"item_type\"]==\"lost\" else \"lost\"\n    rows=conn.execute(\"\"\"\n        SELECT i.*, u.name AS reporter\n        FROM items i JOIN users u ON u.id=i.user_id\n        WHERE i.item_type=? AND i.status='open'\n        ORDER BY i.id DESC\n    \"\"\",(opposite,)).fetchall()\n    conn.close()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "inject_user",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def inject_user():\n    return {\"current_user\": current_user()}\n@app.route(\"/\")\ndef index():\n    conn=db()\n    recent=conn.execute(\"\"\"\n        SELECT i.*,u.name reporter FROM items i JOIN users u ON u.id=i.user_id\n        ORDER BY i.id DESC LIMIT 6\n    \"\"\").fetchall()\n    conn.close()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def index():\n    conn=db()\n    recent=conn.execute(\"\"\"\n        SELECT i.*,u.name reporter FROM items i JOIN users u ON u.id=i.user_id\n        ORDER BY i.id DESC LIMIT 6\n    \"\"\").fetchall()\n    conn.close()\n    return render_template(\"index.html\", recent=recent)\n@app.route(\"/register\", methods=[\"GET\",\"POST\"])\ndef register():",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def register():\n    if request.method==\"POST\":\n        name=request.form[\"name\"].strip()\n        email=request.form[\"email\"].strip().lower()\n        password=request.form[\"password\"]\n        if not name or not email or not password:\n            flash(\"Please fill all required fields.\",\"danger\")\n            return redirect(url_for(\"register\"))\n        conn=db()\n        try:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def login():\n    if request.method==\"POST\":\n        conn=db()\n        user=conn.execute(\"SELECT * FROM users WHERE email=?\", (request.form[\"email\"].lower(),)).fetchone()\n        conn.close()\n        if user and check_password_hash(user[\"password\"],request.form[\"password\"]):\n            session[\"user_id\"]=user[\"id\"]\n            flash(\"Welcome back!\",\"success\")\n            return redirect(url_for(\"dashboard\"))\n        flash(\"Invalid email or password.\",\"danger\")",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def logout():\n    session.clear()\n    flash(\"Logged out successfully.\",\"success\")\n    return redirect(url_for(\"index\"))\n@app.route(\"/dashboard\")\ndef dashboard():\n    if not current_user(): return redirect(url_for(\"login\"))\n    conn=db()\n    items=conn.execute(\"SELECT * FROM items WHERE user_id=? ORDER BY id DESC\",(session[\"user_id\"],)).fetchall()\n    notes=conn.execute(\"SELECT * FROM notifications WHERE user_id=? ORDER BY id DESC LIMIT 8\",(session[\"user_id\"],)).fetchall()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "dashboard",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def dashboard():\n    if not current_user(): return redirect(url_for(\"login\"))\n    conn=db()\n    items=conn.execute(\"SELECT * FROM items WHERE user_id=? ORDER BY id DESC\",(session[\"user_id\"],)).fetchall()\n    notes=conn.execute(\"SELECT * FROM notifications WHERE user_id=? ORDER BY id DESC LIMIT 8\",(session[\"user_id\"],)).fetchall()\n    conn.close()\n    return render_template(\"dashboard.html\",items=items,notifications=notes)\n@app.route(\"/report/<item_type>\", methods=[\"GET\",\"POST\"])\ndef report(item_type):\n    if item_type not in (\"lost\",\"found\"): return \"Invalid item type\",400",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "report",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def report(item_type):\n    if item_type not in (\"lost\",\"found\"): return \"Invalid item type\",400\n    if not current_user(): return redirect(url_for(\"login\"))\n    if request.method==\"POST\":\n        image=request.files.get(\"image\")\n        filename=None\n        if image and image.filename:\n            if not allowed(image.filename):\n                flash(\"Only PNG, JPG, JPEG and WEBP images are allowed.\",\"danger\")\n                return redirect(request.url)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "items",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def items():\n    q=request.args.get(\"q\",\"\").strip()\n    category=request.args.get(\"category\",\"\")\n    item_type=request.args.get(\"type\",\"\")\n    conn=db()\n    sql=\"\"\"SELECT i.*,u.name reporter FROM items i JOIN users u ON u.id=i.user_id WHERE i.status='open'\"\"\"\n    params=[]\n    if q:\n        sql+=\" AND (i.item_name LIKE ? OR i.description LIKE ? OR i.location LIKE ?)\"\n        params += [f\"%{q}%\"]*3",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "item_detail",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def item_detail(item_id):\n    conn=db()\n    item=conn.execute(\"\"\"SELECT i.*,u.name reporter,u.email reporter_email FROM items i\n                         JOIN users u ON u.id=i.user_id WHERE i.id=?\"\"\",(item_id,)).fetchone()\n    conn.close()\n    if not item: return \"Item not found\",404\n    return render_template(\"item_detail.html\",item=item)\n@app.route(\"/matches/<int:item_id>\")\ndef matches(item_id):\n    conn=db(); item=conn.execute(\"SELECT * FROM items WHERE id=?\",(item_id,)).fetchone(); conn.close()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "matches",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def matches(item_id):\n    conn=db(); item=conn.execute(\"SELECT * FROM items WHERE id=?\",(item_id,)).fetchone(); conn.close()\n    if not item: return \"Item not found\",404\n    return render_template(\"matches.html\",item=item,matches=matching_items(item))\n@app.route(\"/claim/<int:item_id>\", methods=[\"POST\"])\ndef claim(item_id):\n    if not current_user(): return redirect(url_for(\"login\"))\n    proof=request.form.get(\"proof\",\"\").strip()\n    if not proof:\n        flash(\"Please provide ownership proof/details.\",\"danger\")",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "claim",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def claim(item_id):\n    if not current_user(): return redirect(url_for(\"login\"))\n    proof=request.form.get(\"proof\",\"\").strip()\n    if not proof:\n        flash(\"Please provide ownership proof/details.\",\"danger\")\n        return redirect(url_for(\"item_detail\",item_id=item_id))\n    conn=db()\n    conn.execute(\"\"\"INSERT INTO claims(item_id,claimant_id,proof,created_at)\n                    VALUES(?,?,?,?)\"\"\",(item_id,session[\"user_id\"],proof,datetime.now().isoformat()))\n    owner=conn.execute(\"SELECT user_id FROM items WHERE id=?\",(item_id,)).fetchone()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def admin():\n    user=current_user()\n    if not user or user[\"role\"]!=\"admin\":\n        flash(\"Admin access required.\",\"danger\"); return redirect(url_for(\"login\"))\n    conn=db()\n    stats={\n        \"users\":conn.execute(\"SELECT COUNT(*) c FROM users WHERE role!='admin'\").fetchone()[\"c\"],\n        \"items\":conn.execute(\"SELECT COUNT(*) c FROM items\").fetchone()[\"c\"],\n        \"lost\":conn.execute(\"SELECT COUNT(*) c FROM items WHERE item_type='lost'\").fetchone()[\"c\"],\n        \"found\":conn.execute(\"SELECT COUNT(*) c FROM items WHERE item_type='found'\").fetchone()[\"c\"],",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "claim_action",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def claim_action(claim_id,action):\n    user=current_user()\n    if not user or user[\"role\"]!=\"admin\": return redirect(url_for(\"login\"))\n    if action not in (\"approve\",\"reject\"): return \"Invalid action\",400\n    status=\"approved\" if action==\"approve\" else \"rejected\"\n    conn=db()\n    claim=conn.execute(\"SELECT * FROM claims WHERE id=?\",(claim_id,)).fetchone()\n    if claim:\n        conn.execute(\"UPDATE claims SET status=?,admin_remark=? WHERE id=?\",\n                     (status,\"Approved by admin\" if action==\"approve\" else \"Rejected by admin\",claim_id))",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "close_item",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def close_item(item_id):\n    user=current_user()\n    if not user or user[\"role\"]!=\"admin\": return redirect(url_for(\"login\"))\n    conn=db(); conn.execute(\"UPDATE items SET status='closed' WHERE id=?\",(item_id,)); conn.commit(); conn.close()\n    return redirect(url_for(\"admin\"))\ninit_db()\nif __name__==\"__main__\":\n    app.run(debug=True)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "BASE_DIR = os.path.dirname(os.path.abspath(__file__))\nDB = os.path.join(BASE_DIR, \"campus_lost_found.db\")\nUPLOAD_FOLDER = os.path.join(BASE_DIR, \"static\", \"uploads\")\nos.makedirs(UPLOAD_FOLDER, exist_ok=True)\napp = Flask(__name__)\napp.secret_key = \"change-this-secret-key\"\napp.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "DB",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "DB = os.path.join(BASE_DIR, \"campus_lost_found.db\")\nUPLOAD_FOLDER = os.path.join(BASE_DIR, \"static\", \"uploads\")\nos.makedirs(UPLOAD_FOLDER, exist_ok=True)\napp = Flask(__name__)\napp.secret_key = \"change-this-secret-key\"\napp.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "UPLOAD_FOLDER",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "UPLOAD_FOLDER = os.path.join(BASE_DIR, \"static\", \"uploads\")\nos.makedirs(UPLOAD_FOLDER, exist_ok=True)\napp = Flask(__name__)\napp.secret_key = \"change-this-secret-key\"\napp.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)\napp.secret_key = \"change-this-secret-key\"\napp.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn\ndef init_db():\n    conn = db()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app.secret_key",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app.secret_key = \"change-this-secret-key\"\napp.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn\ndef init_db():\n    conn = db()\n    conn.executescript(\"\"\"",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app.config[\"UPLOAD_FOLDER\"]",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app.config[\"UPLOAD_FOLDER\"] = UPLOAD_FOLDER\nALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn\ndef init_db():\n    conn = db()\n    conn.executescript(\"\"\"\n    CREATE TABLE IF NOT EXISTS users (",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_EXTENSIONS",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "ALLOWED_EXTENSIONS = {\"png\", \"jpg\", \"jpeg\", \"webp\"}\ndef db():\n    conn = sqlite3.connect(DB)\n    conn.row_factory = sqlite3.Row\n    return conn\ndef init_db():\n    conn = db()\n    conn.executescript(\"\"\"\n    CREATE TABLE IF NOT EXISTS users (\n        id INTEGER PRIMARY KEY AUTOINCREMENT,",
+        "detail": "app",
+        "documentation": {}
+    }
+]

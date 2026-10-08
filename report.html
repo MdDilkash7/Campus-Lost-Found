@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Report {{item_type.title()}}{% endblock %}{% block content %}
+<div class="container py-5"><div class="form-card"><h2>Report {{item_type.title()}} Item</h2><p class="text-muted">Provide accurate details to improve matching.</p>
+<form method="post" enctype="multipart/form-data"><div class="row g-3">
+<div class="col-md-6"><label>Item Name *</label><input name="item_name" class="form-control" required></div>
+<div class="col-md-6"><label>Category *</label><select name="category" class="form-select" required><option value="">Select</option>{% for c in ['Mobile','Laptop','ID Card','Wallet','Bag','Keys','Documents','Jewellery','Other'] %}<option>{{c}}</option>{% endfor %}</select></div>
+<div class="col-md-6"><label>Color</label><input name="color" class="form-control"></div>
+<div class="col-md-6"><label>{{item_type.title()}} Date *</label><input type="date" name="event_date" class="form-control" required></div>
+<div class="col-12"><label>Campus Location *</label><input name="location" class="form-control" placeholder="Library, Block A, Canteen..." required></div>
+<div class="col-12"><label>Description</label><textarea name="description" class="form-control" rows="4" placeholder="Add unique details, marks, model, etc."></textarea></div>
+<div class="col-12"><label>Image</label><input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.webp"></div>
+</div><button class="btn btn-primary mt-4">Submit Report</button></form></div></div>{% endblock %}

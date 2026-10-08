@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}{% block content %}
+<div class="auth-wrap"><div class="auth-card"><h2>Create Account</h2><form method="post">
+<input class="form-control mb-3" name="name" placeholder="Full Name" required>
+<input class="form-control mb-3" type="email" name="email" placeholder="College Email" required>
+<input class="form-control mb-3" name="college_id" placeholder="Student/Employee ID">
+<input class="form-control mb-3" name="department" placeholder="Department">
+<input class="form-control mb-3" name="phone" placeholder="Phone Number">
+<input class="form-control mb-4" type="password" name="password" placeholder="Password" required>
+<button class="btn btn-primary w-100">Register</button></form></div></div>{% endblock %}

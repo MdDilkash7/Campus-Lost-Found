@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}CampusFind | Home{% endblock %}
+{% block content %}
+<section class="hero"><div class="container text-center">
+<div class="badge bg-light text-dark mb-3">College Campus Platform</div>
+<h1>Find What You Lost.<br><span>Return What You Found.</span></h1>
+<p class="lead">A simple and secure way to report, search and recover lost items inside your campus.</p>
+<div class="mt-4"><a class="btn btn-primary btn-lg me-2" href="{{ url_for('report',item_type='lost') }}">Report Lost Item</a><a class="btn btn-outline-light btn-lg" href="{{ url_for('report',item_type='found') }}">Report Found Item</a></div>
+</div></section>
+<div class="container py-5"><h2 class="section-title">Recent Reports</h2><div class="row g-4">
+{% for item in recent %}<div class="col-md-4"><div class="card item-card h-100">
+{% if item['image'] %}<img src="{{ url_for('static',filename='uploads/'+item['image']) }}" class="card-img-top item-img">{% endif %}
+<div class="card-body"><span class="badge {% if item['item_type']=='lost' %}bg-danger{% else %}bg-success{% endif %}">{{item['item_type'].title()}}</span>
+<h5 class="mt-2">{{item['item_name']}}</h5><p>{{item['description'] or 'No description provided.'}}</p><small>📍 {{item['location']}}</small><br><a href="{{url_for('item_detail',item_id=item['id'])}}" class="btn btn-sm btn-outline-primary mt-3">View Details</a></div></div></div>
+{% else %}<p>No reports yet.</p>{% endfor %}</div></div>
+{% endblock %}

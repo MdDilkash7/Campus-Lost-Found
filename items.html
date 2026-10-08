@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Browse Items{% endblock %}{% block content %}
+<div class="container py-5"><h2>Browse Lost & Found Items</h2>
+<form class="row g-2 my-4"><div class="col-md-5"><input name="q" value="{{q}}" class="form-control" placeholder="Search item, location..."></div>
+<div class="col-md-3"><select name="type" class="form-select"><option value="">All Types</option><option value="lost" {% if item_type=='lost'%}selected{%endif%}>Lost</option><option value="found" {% if item_type=='found'%}selected{%endif%}>Found</option></select></div>
+<div class="col-md-3"><select name="category" class="form-select"><option value="">All Categories</option>{% for c in ['Mobile','Laptop','ID Card','Wallet','Bag','Keys','Documents','Jewellery','Other'] %}<option {% if category==c %}selected{%endif%}>{{c}}</option>{% endfor %}</select></div>
+<div class="col-md-1"><button class="btn btn-primary w-100">Go</button></div></form>
+<div class="row g-4">{% for item in items %}<div class="col-md-4"><div class="card item-card h-100">
+{% if item['image'] %}<img src="{{url_for('static',filename='uploads/'+item['image'])}}" class="card-img-top item-img">{% endif %}
+<div class="card-body"><span class="badge {% if item['item_type']=='lost'%}bg-danger{%else%}bg-success{%endif%}">{{item['item_type'].title()}}</span><h5 class="mt-2">{{item['item_name']}}</h5><p>{{item['description'] or ''}}</p><small>📍 {{item['location']}}</small><br><a class="btn btn-outline-primary btn-sm mt-3" href="{{url_for('item_detail',item_id=item['id'])}}">View</a></div></div></div>
+{% else %}<div class="col-12"><div class="alert alert-info">No matching reports found.</div></div>{% endfor %}</div></div>{% endblock %}
